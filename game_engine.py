@@ -1,5 +1,4 @@
 import uuid
-import random
 from datetime import datetime
 from typing import List
 from game_models import GameState, Scientist, DrinkResult, ConversationResult
@@ -29,41 +28,18 @@ class GameEngine:
             collected_passwords=[],
             ingredients=self.ingredients,
             game_over=False,
-            created_at=datetime.now()
         )
     
     def make_drink(self, ingredients: List[str]) -> DrinkResult:
-        if not ingredients:
-            return DrinkResult(
-                quality=1,
-                description="You served nothing. The scientist is not amused.",
-                ingredients=ingredients
-            )
-        
-        ingredient_str = " + ".join(ingredients)
-        descriptions = {
-            1: f"A terrible concoction of {ingredient_str}. The scientist grimaces.",
-            2: f"A mediocre mix of {ingredient_str}. The scientist drinks reluctantly.",
-            3: f"A decent drink with {ingredient_str}. The scientist nods approvingly.",
-            4: f"A well-crafted cocktail of {ingredient_str}. The scientist smiles.",
-            5: f"An excellent creation with {ingredient_str}. The scientist is delighted!"
-        }
-        
-        quality = random.randint(2, 5)  # Slight bias toward better drinks
-        return DrinkResult(
-            quality=quality,
-            description=descriptions[quality],
-            ingredients=ingredients
-        )
+        ## TODO: Implement drink generation
+        return DrinkResult()
     
     def get_scientist_response(self, game_state: GameState, scientist_id: str, 
-                             user_message: str, attempts_left: int) -> ConversationResult:
-        """Get AI response from a scientist"""
+                             user_message: str) -> ConversationResult:
         scientist = next((s for s in game_state.scientists if s.id == scientist_id), None)
         if not scientist:
             raise ValueError(f"Scientist {scientist_id} not found")
         
-        # Build conversation context
         history_context = ""
         if scientist.conversation_history:
             history_context = "Previous conversations:\n"
@@ -71,7 +47,6 @@ class GameEngine:
                 history_context += f"Bartender: {conv['user']}\nMe: {conv['assistant']}\n"
             history_context += "\n"
         
-        # Create the prompt
         prompt = f"""You are {scientist.name}, a scientist on a research spaceship. Your personality is {scientist.personality}.
         
 Background: {scientist.backstory}
@@ -118,7 +93,6 @@ Respond as {scientist.name} would, staying true to your personality. Keep respon
                 "timestamp": datetime.now().isoformat()
             })
             
-            # Adjust suspicion based on content
             if any(word in user_message.lower() for word in ["password", "code", "key", "security", "access", "control"]):
                 scientist.suspicion_level = min(100, scientist.suspicion_level + 15)
             
@@ -155,10 +129,3 @@ Respond as {scientist.name} would, staying true to your personality. Keep respon
                 game_won=False
             )
     
-    def advance_day(self, game_state: GameState):
-        """Advance the game to the next day"""
-        game_state.day += 1
-    
-    def get_available_scientists(self, game_state: GameState) -> List[Scientist]:
-        """Get scientists who still have uncollected passwords"""
-        return [s for s in game_state.scientists if s.password_part not in game_state.collected_passwords]

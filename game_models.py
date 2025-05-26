@@ -14,6 +14,7 @@ class Scientist:
     conversation_history: List[Dict[str, Any]]
     trust_level: int
     suspicion_level: int
+    attempts_left: int = 0  # Default to 0 attempts
     
     def to_dict(self):
         return asdict(self)
@@ -30,7 +31,6 @@ class GameState:
     collected_passwords: List[str]
     ingredients: List[str]
     game_over: bool
-    created_at: datetime
     
     def to_dict(self):
         return {
