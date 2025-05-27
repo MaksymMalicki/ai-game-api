@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
 from game_engine import GameEngine
-from game_models import GameState
+from game_models import GameState, Drink
 from openai import OpenAI
 import os
 
@@ -12,9 +12,6 @@ openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 game_engine = GameEngine(openai_client)
 
 active_game: Optional[GameState] = None
-
-class DrinkRequest(BaseModel):
-    ingredients: List[str]
 
 class MessageRequest(BaseModel):
     message: str
@@ -45,18 +42,20 @@ async def get_scientist(scientist_id: str):
     
     scientist = next((s for s in active_game.scientists if s.id == scientist_id), None)
     if scientist:
+        # Generate random drink for scientist
+        scientist.expected_drink_taste = game_engine.generate_random_drink()
         return scientist.to_dict()
     raise HTTPException(status_code=404, detail="Scientist not found")
 
-@app.post("/scientist/{scientist_id}/serve-drink")
-async def serve_drink(scientist_id: str, drink: DrinkRequest):
+@app.post("/scientist/{scientist_id}/serve-drink/{drink_taste_json}")
+async def serve_drink(scientist_id: str, drink_taste_json: str):
     """Serve a drink to a scientist and get their reaction"""
     if active_game is None:
         raise HTTPException(status_code=400, detail="No active game")
     
     scientist = next((s for s in active_game.scientists if s.id == scientist_id), None)
     if scientist:
-        scientist.attempts_left = 3
+        scientist.attempts_left = game_engine.compare_drink_taste(drink_taste_json, scientist.expected_drink_taste)
         
         return {
             "scientist_id": scientist_id,

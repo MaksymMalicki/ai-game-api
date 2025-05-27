@@ -1,14 +1,26 @@
 import uuid
 from datetime import datetime
 from typing import List
-from game_models import GameState, Scientist, DrinkResult, ConversationResult
+from game_models import GameState, Scientist, Drink, ConversationResult
 from game_generators import ScientistGenerator, PasswordGenerator
+import math
+import random
+import json
 
 class GameEngine:
     def __init__(self, openai_client):
         self.client = openai_client
         self.scientist_generator = ScientistGenerator(openai_client)
-        self.ingredients = ["vodka", "whiskey", "rum", "gin", "lime", "cola", "tonic", "cranberry", "orange_juice"]
+        self.maximum_drink_taste_values = Drink(
+            taste = {"vol": 100,
+            "sweetness": 5,
+            "sourness": 5,
+            "fruitness": 5,
+            "herbalness": 5,
+            "sparkling": 1,
+            "ice": 1,
+            "shaken": 1}
+        )
     
     def create_game(self, num_scientists: int = 3) -> GameState:
         """Create a new game with generated scientists"""
@@ -30,9 +42,52 @@ class GameEngine:
             game_over=False,
         )
     
-    def make_drink(self, ingredients: List[str]) -> DrinkResult:
-        ## TODO: Implement drink generation
-        return DrinkResult()
+    def generate_random_drink(self) -> Drink:
+        random_taste = {}
+        for key, max_value in self.maximum_drink_taste_values.taste.items():
+            if key in ["sparkling", "ice", "shaken"]:
+                random_taste[key] = random.randint(0, 1)
+            else:
+                random_taste[key] = random.randint(0, max_value)
+        return Drink(taste=random_taste)
+
+    def compare_drink_taste(self, served_drink: str, expected_drink: Drink):
+        """
+        Compare two drinks by computing normalized squared difference in taste parameters.
+
+        Inputs:
+        - served_drink_taste (str): JSON-formatted string with keys like "vol", "sweetness", etc.
+        - expected_taste (Drink obj): Python dictionary with the same keys as served_drink_taste.
+
+        Output:
+        - int: Number of attenpts that user will have to find out answer
+        """
+        # Step 0: Get only taste information to compare
+        served_drink_taste = json.loads(served_drink)
+        expected_taste = expected_drink.taste
+        max_values = self.maximum_drink_taste_values   
+
+        # Step 1: Normalize both dictionaries
+        def normalize(d):
+            return {
+                key: (int(value) if isinstance(value, bool) else value) / max_values[key]
+                for key, value in d.items()
+            }
+
+        norm_input = normalize(served_drink_taste)
+        norm_expected_taste = normalize(expected_taste)
+
+        # Step 2: Calculate squared difference
+        total_diff = sum(
+            (norm_input[key] - norm_expected_taste[key]) ** 2 for key in norm_input
+        )
+
+        # Step 3: Average the difference
+        average_diff = total_diff / 7
+
+        # Step 4: Calculate attempts ammount
+        # Maximum 4 attempts
+        return math.ceil(average_diff * 4)
     
     def get_scientist_response(self, game_state: GameState, scientist_id: str, 
                              user_message: str) -> ConversationResult:

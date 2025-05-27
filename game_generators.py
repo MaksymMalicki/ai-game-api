@@ -1,6 +1,6 @@
 import random
 from typing import List
-from game_models import Scientist
+from game_models import Scientist, Drink
 
 class ScientistGenerator:
     def __init__(self, openai_client):
@@ -23,8 +23,6 @@ class ScientistGenerator:
             "dark matter research", "terraforming", "spacecraft propulsion", "cosmic radiation",
             "alien linguistics", "space medicine", "gravitational studies", "AI ethics"
         ]
-        
-        self.ingredients = ["vodka", "whiskey", "rum", "gin", "lime", "cola", "tonic", "cranberry", "orange_juice"]
     
     def generate_backstory(self, name: str, personality: str, field: str) -> str:
         """Generate AI backstory for a scientist"""
@@ -58,10 +56,6 @@ class ScientistGenerator:
         
         backstory = self.generate_backstory(name, personality, field)
         
-        preferences = {}
-        for ingredient in self.ingredients:
-            preferences[ingredient] = random.randint(1, 5)
-        
         return Scientist(
             id=scientist_id,
             name=name,
@@ -69,7 +63,7 @@ class ScientistGenerator:
             backstory=backstory,
             field=field,
             password_part=password_part,
-            drink_preferences=preferences,
+            expected_drink_taste=Drink(),
             conversation_history=[],
             trust_level=random.randint(30, 70),
             suspicion_level=random.randint(0, 20)

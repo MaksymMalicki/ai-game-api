@@ -3,6 +3,19 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 
 @dataclass
+class Drink:
+    taste = {
+        "vol": 0,
+        "sweetness": 0,
+        "sourness": 0,
+        "fruitness": 0,
+        "herbalness": 0,
+        "sparkling": 0,
+        "ice": 0,
+        "shaken": 0
+    }
+
+@dataclass
 class Scientist:
     id: str
     name: str
@@ -10,7 +23,7 @@ class Scientist:
     backstory: str
     field: str
     password_part: str
-    drink_preferences: Dict[str, int]
+    expected_drink_taste: Drink
     conversation_history: List[Dict[str, Any]]
     trust_level: int
     suspicion_level: int
@@ -55,12 +68,6 @@ class GameState:
             game_over=data['game_over'],
             created_at=datetime.fromisoformat(data['created_at'])
         )
-
-@dataclass
-class DrinkResult:
-    quality: int
-    description: str
-    ingredients: List[str]
 
 @dataclass
 class ConversationResult:
