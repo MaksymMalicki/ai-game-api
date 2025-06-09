@@ -67,6 +67,11 @@ async def serve_drink(scientist_id: str, drink: DrinkTasteRequest):
     if scientist:
         scientist.attempts_left = game_engine.compare_drink_taste(drink.json(), scientist.expected_drink_taste)
         
+        # Generate new drink preference
+        new_preference = game_engine.generate_drink_preference()
+        scientist.expected_drink_taste = Drink(**new_preference['expected_drink_taste'])
+        scientist.drink_hint = new_preference['hint']
+        
         return {
             "scientist_id": scientist_id,
             "attempts_granted": scientist.attempts_left,

@@ -29,6 +29,7 @@ class Scientist:
     field: str
     password_part: str
     expected_drink_taste: Drink
+    drink_hint: str
     conversation_history: List[Dict[str, Any]]
     trust_level: int
     suspicion_level: int
