@@ -84,6 +84,6 @@ class PasswordGenerator:
     def generate_parts(num_parts: int) -> List[str]:
         parts = []
         for _ in range(num_parts):
-            part = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', k=4))
+            part = ''.join(random.choices('0123456789', k=4))
             parts.append(part)
         return parts

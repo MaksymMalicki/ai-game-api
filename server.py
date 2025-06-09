@@ -22,6 +22,16 @@ class ScientistResponse(BaseModel):
     isOver: bool
     game_won: bool
 
+class DrinkTasteRequest(BaseModel):
+    vol: int = 0
+    sweetness: int = 0
+    sourness: int = 0
+    fruitness: int = 0
+    herbalness: int = 0
+    sparkling: int = 0
+    ice: int = 0
+    shaken: int = 0
+
 # Endpoints
 @app.post("/game/start")
 async def start_game():
@@ -46,19 +56,21 @@ async def get_scientist(scientist_id: str):
         return scientist.to_dict()
     raise HTTPException(status_code=404, detail="Scientist not found")
 
-@app.post("/scientist/{scientist_id}/serve-drink/{drink_taste_json}")
-async def serve_drink(scientist_id: str, drink_taste_json: str):
+@app.post("/scientist/{scientist_id}/serve-drink")
+async def serve_drink(scientist_id: str, drink: DrinkTasteRequest):
+    print(drink, "test")
     if active_game is None:
         raise HTTPException(status_code=400, detail="No active game")
     
     scientist = next((s for s in active_game.scientists if s.id == scientist_id), None)
+    print(scientist, "test")
     if scientist:
-        scientist.attempts_left = game_engine.compare_drink_taste(drink_taste_json, scientist.expected_drink_taste)
+        scientist.attempts_left = game_engine.compare_drink_taste(drink.json(), scientist.expected_drink_taste)
         
         return {
             "scientist_id": scientist_id,
             "attempts_granted": scientist.attempts_left,
-            "message": f"The scientist seems {'very interested' if scientist.attempts_left > 2 else 'interested' if scientist.attempts_left > 0 else 'uninterested'} in your drink..."
+            "message": f"I'm {'very interested' if scientist.attempts_left > 2 else 'interested' if scientist.attempts_left > 0 else 'uninterested'} in your drink..."
         }
     raise HTTPException(status_code=404, detail="Scientist not found")
 

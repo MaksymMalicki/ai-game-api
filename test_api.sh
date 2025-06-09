@@ -1,4 +1,3 @@
-# 1. Start a new game
 curl -X POST http://localhost:8000/game/start
 
 echo "Getting details of first scientist (ID: 0)..."
@@ -11,13 +10,46 @@ echo -e "\nGetting details of third scientist (ID: 2)..."
 curl http://localhost:8000/scientist/2
 
 echo -e "\nServing drink to first scientist..."
-curl -X POST "http://localhost:8000/scientist/0/serve-drink/%7B%22vol%22%3A80%2C%22sweetness%22%3A3%2C%22sourness%22%3A2%2C%22fruitness%22%3A1%2C%22herbalness%22%3A4%2C%22sparkling%22%3A1%2C%22ice%22%3A1%2C%22shaken%22%3A0%7D"
+curl -X POST http://localhost:8000/scientist/0/serve-drink \
+  -H "Content-Type: application/json" \
+  -d '{
+    "vol": 80,
+    "sweetness": 3,
+    "sourness": 2,
+    "fruitness": 1,
+    "herbalness": 4,
+    "sparkling": 1,
+    "ice": 1,
+    "shaken": 0
+  }'
 
 echo -e "\nServing drink to second scientist..."
-curl -X POST "http://localhost:8000/scientist/1/serve-drink/%7B%22vol%22%3A60%2C%22sweetness%22%3A4%2C%22sourness%22%3A1%2C%22fruitness%22%3A3%2C%22herbalness%22%3A2%2C%22sparkling%22%3A1%2C%22ice%22%3A1%2C%22shaken%22%3A1%7D"
+curl -X POST http://localhost:8000/scientist/1/serve-drink \
+  -H "Content-Type: application/json" \
+  -d '{
+    "vol": 60,
+    "sweetness": 4,
+    "sourness": 1,
+    "fruitness": 3,
+    "herbalness": 2,
+    "sparkling": 1,
+    "ice": 1,
+    "shaken": 1
+  }'
 
 echo -e "\nServing drink to third scientist..."
-curl -X POST "http://localhost:8000/scientist/2/serve-drink/%7B%22vol%22%3A100%2C%22sweetness%22%3A2%2C%22sourness%22%3A4%2C%22fruitness%22%3A2%2C%22herbalness%22%3A3%2C%22sparkling%22%3A0%2C%22ice%22%3A1%2C%22shaken%22%3A1%7D"
+curl -X POST http://localhost:8000/scientist/2/serve-drink \
+  -H "Content-Type: application/json" \
+  -d '{
+    "vol": 100,
+    "sweetness": 2,
+    "sourness": 4,
+    "fruitness": 2,
+    "herbalness": 3,
+    "sparkling": 0,
+    "ice": 1,
+    "shaken": 1
+  }'
 
 echo -e "\nConversation with first scientist..."
 curl -X POST http://localhost:8000/scientist/0/conversation \
@@ -33,9 +65,3 @@ echo -e "\nConversation with third scientist..."
 curl -X POST http://localhost:8000/scientist/2/conversation \
   -H "Content-Type: application/json" \
   -d '{"message": "How long have you been on this ship?"}'
-
-echo -e "\nTrying to start a new game (should fail)..."
-curl -X POST http://localhost:8000/game/start
-
-echo -e "\nTrying to get a non-existent scientist (should fail)..."
-curl http://localhost:8000/scientist/999

@@ -4,18 +4,21 @@ from datetime import datetime
 
 @dataclass
 class Drink:
-    def __init__(self, taste: dict | None = None):
-        default_taste = {
-            "vol": 0,
-            "sweetness": 0,
-            "sourness": 0,
-            "fruitness": 0,
-            "herbalness": 0,
-            "sparkling": 0,
-            "ice": 0,
-            "shaken": 0
-        }
-        self.taste: dict = taste if taste is not None else default_taste.copy()
+    vol: int = 0
+    sweetness: int = 0
+    sourness: int = 0
+    fruitness: int = 0
+    herbalness: int = 0
+    sparkling: int = 0
+    ice: int = 0
+    shaken: int = 0
+    
+    def to_dict(self):
+        return asdict(self)
+    
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls(**data)
 
 @dataclass
 class Scientist:
