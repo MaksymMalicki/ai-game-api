@@ -25,4 +25,4 @@ if __name__ == "__main__":
     game_generators.NO_OPENAI = NO_OPENAI
     game_engine.NO_OPENAI = NO_OPENAI
     # Run app
-    uvicorn.run(app, host="127.0.0.1", port=8001)
+    uvicorn.run(app, host="127.0.0.1", port=8000)

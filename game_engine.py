@@ -24,12 +24,12 @@ class GameEngine:
     
     def create_game(self, num_scientists: int = 3) -> GameState:
         """Create a new game with generated scientists"""
-        game_id = str(uuid.uuid4())
+        game_id = "0"  # Using simple integer as game ID
         password_parts = PasswordGenerator.generate_parts(num_scientists)
         
         scientists = []
         for i in range(num_scientists):
-            scientist_id = f"{game_id}_scientist_{i}"
+            scientist_id = str(i)
             scientist = self.scientist_generator.generate_scientist(scientist_id, password_parts[i])
             scientists.append(scientist)
         
@@ -89,8 +89,7 @@ class GameEngine:
         # Maximum 4 attempts
         return math.ceil(average_diff * 4)
     
-    def get_scientist_response(self, game_state: GameState, scientist_id: str, 
-                             user_message: str) -> ConversationResult:
+    def get_scientist_response(self, game_state: GameState, scientist_id: str, user_message: str) -> ConversationResult:
         global NO_OPENAI
         if NO_OPENAI:
             return ConversationResult(

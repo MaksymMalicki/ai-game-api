@@ -25,7 +25,6 @@ class ScientistResponse(BaseModel):
 # Endpoints
 @app.post("/game/start")
 async def start_game():
-    """Initialize a new game and return the list of scientist IDs"""
     global active_game
     if active_game is not None:
         raise HTTPException(status_code=400, detail="A game is already in progress")
@@ -38,20 +37,17 @@ async def start_game():
 
 @app.get("/scientist/{scientist_id}")
 async def get_scientist(scientist_id: str):
-    """Get scientist details by ID"""
     if active_game is None:
         raise HTTPException(status_code=400, detail="No active game")
     
     scientist = next((s for s in active_game.scientists if s.id == scientist_id), None)
     if scientist:
-        # Generate random drink for scientist
         scientist.expected_drink_taste = game_engine.generate_random_drink()
         return scientist.to_dict()
     raise HTTPException(status_code=404, detail="Scientist not found")
 
 @app.post("/scientist/{scientist_id}/serve-drink/{drink_taste_json}")
 async def serve_drink(scientist_id: str, drink_taste_json: str):
-    """Serve a drink to a scientist and get their reaction"""
     if active_game is None:
         raise HTTPException(status_code=400, detail="No active game")
     
@@ -68,7 +64,6 @@ async def serve_drink(scientist_id: str, drink_taste_json: str):
 
 @app.post("/scientist/{scientist_id}/conversation")
 async def get_scientist_response(scientist_id: str, request: MessageRequest):
-    """Get a response from a scientist and decrease their attempts"""
     if active_game is None:
         raise HTTPException(status_code=400, detail="No active game")
     
