@@ -4,16 +4,18 @@ from datetime import datetime
 
 @dataclass
 class Drink:
-    taste = {
-        "vol": 0,
-        "sweetness": 0,
-        "sourness": 0,
-        "fruitness": 0,
-        "herbalness": 0,
-        "sparkling": 0,
-        "ice": 0,
-        "shaken": 0
-    }
+    def __init__(self, taste: dict | None = None):
+        default_taste = {
+            "vol": 0,
+            "sweetness": 0,
+            "sourness": 0,
+            "fruitness": 0,
+            "herbalness": 0,
+            "sparkling": 0,
+            "ice": 0,
+            "shaken": 0
+        }
+        self.taste: dict = taste if taste is not None else default_taste.copy()
 
 @dataclass
 class Scientist:
@@ -42,7 +44,7 @@ class GameState:
     day: int
     scientists: List[Scientist]
     collected_passwords: List[str]
-    ingredients: List[str]
+    maximum_drink_taste_values: List[str]
     game_over: bool
     
     def to_dict(self):
@@ -51,7 +53,7 @@ class GameState:
             'day': self.day,
             'scientists': [s.to_dict() for s in self.scientists],
             'collected_passwords': self.collected_passwords,
-            'ingredients': self.ingredients,
+            'maximum_drink_taste_values': self.maximum_drink_taste_values,
             'game_over': self.game_over,
             'created_at': self.created_at.isoformat()
         }
@@ -64,7 +66,7 @@ class GameState:
             day=data['day'],
             scientists=scientists,
             collected_passwords=data['collected_passwords'],
-            ingredients=data['ingredients'],
+            maximum_drink_taste_values=data['maximum_drink_taste_values'],
             game_over=data['game_over'],
             created_at=datetime.fromisoformat(data['created_at'])
         )

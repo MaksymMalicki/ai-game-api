@@ -25,27 +25,38 @@ class ScientistGenerator:
         ]
     
     def generate_backstory(self, name: str, personality: str, field: str) -> str:
-        """Generate AI backstory for a scientist"""
-        prompt = f"""Generate a detailed backstory for a scientist character with these traits:
-        Name: {name}
-        Personality: {personality}
-        Field of study: {field}
-        
-        The scientist works on a research spaceship and has been entrusted with part of a critical security password.
-        Create a compelling backstory (2-3 sentences) that explains their background, motivation, and why they're on this mission.
-        Make it engaging and unique. Return only the backstory, no additional text."""
-        
-        try:
-            response = self.client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": prompt}],
-                max_tokens=150,
-                temperature=0.8
-            )
-            return response.choices[0].message.content.strip()
-        except Exception as e:
-            print(f"Error generating backstory: {e}")
-            return f"Dr. {name.split()[-1]} is a dedicated {field} researcher with a {personality} disposition."
+        global NO_OPENAI
+        if NO_OPENAI:
+            return("Dr. Elena Vasquez, once a brilliant but mistrusted\
+                    quantum physicist ostracized for her radical theories,\
+                    now carries the heavy burden of safeguarding a fragment\
+                    of a critical security password aboard the research spaceship.\
+                    Haunted by past betrayals and shadowy conspiracies within her own\
+                    scientific community, her paranoia fuels her secretive nature,\
+                    driving her to protect the mission at all costs. This mission \
+                   is her chance to redeem herself and prove that her groundbreaking work can alter the fate of humanity.")
+        else:
+            """Generate AI backstory for a scientist"""
+            prompt = f"""Generate a detailed backstory for a scientist character with these traits:
+            Name: {name}
+            Personality: {personality}
+            Field of study: {field}
+            
+            The scientist works on a research spaceship and has been entrusted with part of a critical security password.
+            Create a compelling backstory (2-3 sentences) that explains their background, motivation, and why they're on this mission.
+            Make it engaging and unique. Return only the backstory, no additional text."""
+            
+            try:
+                response = self.client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[{"role": "user", "content": prompt}],
+                    max_tokens=150,
+                    temperature=0.8
+                )
+                return response.choices[0].message.content.strip()
+            except Exception as e:
+                print(f"Error generating backstory: {e}")
+                return f"Dr. {name.split()[-1]} is a dedicated {field} researcher with a {personality} disposition."
     
     def generate_scientist(self, scientist_id: str, password_part: str) -> Scientist:
         """Generate a complete scientist character"""

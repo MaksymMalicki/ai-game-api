@@ -6,11 +6,12 @@ from game_models import GameState, Drink
 from openai import OpenAI
 import os
 
-app = FastAPI(title="AI Game API")
 
+
+# Globals
+app = FastAPI(title="AI Game API")
 openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 game_engine = GameEngine(openai_client)
-
 active_game: Optional[GameState] = None
 
 class MessageRequest(BaseModel):
@@ -21,6 +22,7 @@ class ScientistResponse(BaseModel):
     isOver: bool
     game_won: bool
 
+# Endpoints
 @app.post("/game/start")
 async def start_game():
     """Initialize a new game and return the list of scientist IDs"""
