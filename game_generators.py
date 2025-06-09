@@ -4,7 +4,7 @@ from typing import List
 from game_models import Scientist, Drink, ConversationResult
 from datetime import datetime
 
-GPT_MODEL = "gpt-3.5"
+GPT_MODEL = "gpt-4.1"
 TEMPERATURE = 0.7
 
 

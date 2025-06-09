@@ -5,8 +5,10 @@ from game_engine import GameEngine
 from game_models import GameState, Drink
 from openai import OpenAI
 import os
+from dotenv import load_dotenv
 
 
+load_dotenv(override=True)
 
 # Globals
 app = FastAPI(title="AI Game API")
