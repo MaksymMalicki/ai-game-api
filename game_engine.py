@@ -8,7 +8,6 @@ import json
 
 class GameEngine:
     def __init__(self, openai_client):
-        self.client = openai_client
         self.scientist_generator = ScientistGenerator(openai_client)
         self.maximum_drink_taste_values = Drink(
             vol=100,
