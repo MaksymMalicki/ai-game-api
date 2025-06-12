@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmrbe1wbt31xr"]
+
+[ext_resource type="Texture2D" uid="uid://bm3xfpaaskiy3" path="res://assets/equipment/jager.png" id="1_7cb3c"]
+[ext_resource type="Script" uid="uid://4se0xox0hcn" path="res://scenes/bootles/jager.gd" id="1_ud4km"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l4l4e"]
+size = Vector2(70, 161.665)
+
+[node name="Jager" type="Node2D"]
+script = ExtResource("1_ud4km")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.42, 0.42)
+texture = ExtResource("1_7cb3c")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_l4l4e")
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

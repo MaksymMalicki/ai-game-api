@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://bo6x7ytw8nfys"]
+
+[ext_resource type="Texture2D" uid="uid://bepp22lf1uyk4" path="res://assets/equipment/pipe.png" id="1_o6w1d"]
+[ext_resource type="Script" uid="uid://lnjp6hrthdgg" path="res://scenes/spawnable/glasses/pipe.gd" id="1_pw6o7"]
+[ext_resource type="Texture2D" uid="uid://dqu23pg6d07if" path="res://assets/equipment/shaker_closed.png" id="3_0b7qp"]
+[ext_resource type="Script" uid="uid://dod85ta1tvxrw" path="res://scenes/spawnable/glasses/shaker.gd" id="3_1c4qe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o6w1d"]
+size = Vector2(82.61, 174.18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0b7qp"]
+size = Vector2(69.32, 115.935)
+
+[node name="Pipe" type="StaticBody2D" groups=["shakerPipe"]]
+script = ExtResource("1_pw6o7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.436869, 0.436869)
+texture = ExtResource("1_o6w1d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_o6w1d")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_o6w1d")
+
+[node name="Shaker" type="StaticBody2D" parent="." groups=["shaker"]]
+visible = false
+script = ExtResource("3_1c4qe")
+
+[node name="Sprite2D" type="Sprite2D" parent="Shaker"]
+scale = Vector2(0.301, 0.301)
+texture = ExtResource("3_0b7qp")
+
+[node name="Area2D" type="Area2D" parent="Shaker"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shaker/Area2D"]
+shape = SubResource("RectangleShape2D_0b7qp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shaker"]
+shape = SubResource("RectangleShape2D_0b7qp")
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="body_entered" from="Shaker/Area2D" to="Shaker" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Shaker/Area2D" to="Shaker" method="_on_area_2d_body_exited"]
+[connection signal="mouse_entered" from="Shaker/Area2D" to="Shaker" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Shaker/Area2D" to="Shaker" method="_on_area_2d_mouse_exited"]

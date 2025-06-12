@@ -42,7 +42,7 @@ class ScientistGenerator:
             for conv in scientist.conversation_history[-3:]:
                 history_context += f"Bartender: {conv['user']}\nMe: {conv['assistant']}\n"
             history_context += "\n"
-        
+        print(user_message, scientist.conversation_history)
         prompt = f"""You are {scientist.name}, a scientist on a research spaceship. Your personality is {scientist.personality}.
         
 Background: {scientist.backstory}
@@ -85,6 +85,22 @@ Respond as {scientist.name} would, staying true to your personality. Keep respon
             return f"I'm sorry, I can't talk right now. I'm dead."
 
     def generate_preference(self) -> dict:
+        global NO_OPENAI
+        if NO_OPENAI:
+            return {
+                "hint": "I'll take whatever you recommend.",
+                "expected_drink_taste": {
+                    "vol": random.randint(0, 100),
+                    "sweetness": random.randint(0, 5),
+                    "sourness": random.randint(0, 5),
+                    "fruitness": random.randint(0, 5),
+                    "herbalness": random.randint(0, 5),
+                    "sparkling": random.randint(0, 1),
+                    "ice": random.randint(0, 1),
+                    "shaken": random.randint(0, 1)
+                }
+            }
+        
         prompt = """Generate a drink preference for a scientist in a space bar. 
         Return a JSON object with two fields:
         1. 'hint': A natural language description of what kind of drink they want (e.g., "I'm feeling down, I need something strong and sweet" or "I want to celebrate with something refreshing and fruity")

@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://bp7e2276y1qys"]
+
+[ext_resource type="Script" uid="uid://cvu24qrnm6v15" path="res://scenes/spawnable/spices/mintPlant.gd" id="1_2oi8i"]
+[ext_resource type="Texture2D" uid="uid://duaeuju2rq5of" path="res://assets/equipment/mint_plant.png" id="2_5av5y"]
+[ext_resource type="Texture2D" uid="uid://choxbcq8odlyn" path="res://assets/equipment/mint_bunch.png" id="4_5av5y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vhfqt"]
+size = Vector2(146.66, 195.955)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w5cms"]
+size = Vector2(47.85, 48)
+
+[node name="MintPlant" type="Node2D"]
+script = ExtResource("1_2oi8i")
+
+[node name="MintPlantSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.626, 0.626)
+texture = ExtResource("2_5av5y")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_vhfqt")
+
+[node name="MintBunch" type="StaticBody2D" parent="."]
+visible = false
+scale = Vector2(1.44, 1.44)
+
+[node name="MintBunchSprite" type="Sprite2D" parent="MintBunch"]
+position = Vector2(4.76837e-07, 0)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("4_5av5y")
+
+[node name="SingleArea2D" type="Area2D" parent="MintBunch"]
+
+[node name="SingleCollisionShape2D" type="CollisionShape2D" parent="MintBunch/SingleArea2D"]
+shape = SubResource("RectangleShape2D_w5cms")
+
+[node name="SingleCollisionShape2D" type="CollisionShape2D" parent="MintBunch"]
+shape = SubResource("RectangleShape2D_w5cms")
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

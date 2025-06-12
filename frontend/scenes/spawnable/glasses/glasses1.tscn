@@ -1,0 +1,76 @@
+[gd_scene load_steps=6 format=3 uid="uid://tsdxar8ovser"]
+
+[ext_resource type="Texture2D" uid="uid://b32mivylrkcw1" path="res://assets/equipment/glass1.png" id="1_8jg63"]
+[ext_resource type="Script" uid="uid://bhe2hkocc3txo" path="res://scenes/spawnable/glasses/glasses_1.gd" id="1_w5cms"]
+[ext_resource type="Script" uid="uid://bdy46wu4ogayv" path="res://scenes/spawnable/glasses/single_glass1.gd" id="3_pi2jq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vhfqt"]
+size = Vector2(171.98, 70.965)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w5cms"]
+size = Vector2(52.285, 61.5)
+
+[node name="Glasses1" type="Node2D"]
+script = ExtResource("1_w5cms")
+
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+
+[node name="Glass2" type="Sprite2D" parent="CanvasGroup"]
+position = Vector2(-33.9999, -9.01454)
+scale = Vector2(0.15942, 0.15942)
+texture = ExtResource("1_8jg63")
+
+[node name="Glass6" type="Sprite2D" parent="CanvasGroup"]
+position = Vector2(14, -9.01454)
+scale = Vector2(0.15942, 0.15942)
+texture = ExtResource("1_8jg63")
+
+[node name="Glass4" type="Sprite2D" parent="CanvasGroup"]
+position = Vector2(64, -9.01454)
+scale = Vector2(0.15942, 0.15942)
+texture = ExtResource("1_8jg63")
+
+[node name="Glass1" type="Sprite2D" parent="CanvasGroup"]
+position = Vector2(-60, 3.98566)
+scale = Vector2(0.188406, 0.188406)
+texture = ExtResource("1_8jg63")
+
+[node name="Glass3" type="Sprite2D" parent="CanvasGroup"]
+position = Vector2(-6.99984, 4.98566)
+scale = Vector2(0.188406, 0.188406)
+texture = ExtResource("1_8jg63")
+
+[node name="Glass5" type="Sprite2D" parent="CanvasGroup"]
+position = Vector2(47, 3.98566)
+scale = Vector2(0.188406, 0.188406)
+texture = ExtResource("1_8jg63")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_vhfqt")
+
+[node name="SingleGlass" type="StaticBody2D" parent="." groups=["glass"]]
+visible = false
+scale = Vector2(1.44, 1.44)
+script = ExtResource("3_pi2jq")
+
+[node name="SingleGlassSprite" type="Sprite2D" parent="SingleGlass"]
+position = Vector2(4.76837e-07, 0)
+scale = Vector2(0.188406, 0.188406)
+texture = ExtResource("1_8jg63")
+
+[node name="SingleArea2D" type="Area2D" parent="SingleGlass"]
+
+[node name="SingleCollisionShape2D" type="CollisionShape2D" parent="SingleGlass/SingleArea2D"]
+shape = SubResource("RectangleShape2D_w5cms")
+
+[node name="SingleCollisionShape2D" type="CollisionShape2D" parent="SingleGlass" groups=["glass"]]
+shape = SubResource("RectangleShape2D_w5cms")
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="body_entered" from="SingleGlass/SingleArea2D" to="SingleGlass" method="_on_single_area_2d_body_entered"]
+[connection signal="body_exited" from="SingleGlass/SingleArea2D" to="SingleGlass" method="_on_single_area_2d_body_exited"]
+[connection signal="mouse_entered" from="SingleGlass/SingleArea2D" to="SingleGlass" method="_on_single_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="SingleGlass/SingleArea2D" to="SingleGlass" method="_on_single_area_2d_mouse_exited"]

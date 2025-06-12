@@ -1,0 +1,109 @@
+[gd_scene load_steps=22 format=3 uid="uid://kjoomvjatif3"]
+
+[ext_resource type="Script" uid="uid://djejlqj5rljfp" path="res://scenes/bar_scene.gd" id="1_fg7sn"]
+[ext_resource type="Texture2D" uid="uid://cedny05seij2w" path="res://assets/background.png" id="1_kqol2"]
+[ext_resource type="Texture2D" uid="uid://c45wclwt81udq" path="res://assets/clients/client5.png" id="4_jfl6i"]
+[ext_resource type="PackedScene" uid="uid://8gedxp22ir4h" path="res://scenes/spawnable/spices/ice.tscn" id="7_m7nk6"]
+[ext_resource type="PackedScene" uid="uid://tsdxar8ovser" path="res://scenes/spawnable/glasses/glasses1.tscn" id="12_06iih"]
+[ext_resource type="PackedScene" uid="uid://dktdx6aai2w3h" path="res://scenes/spawnable/glasses/glasses2.tscn" id="13_nrkta"]
+[ext_resource type="PackedScene" uid="uid://4b0xqg23a0wp" path="res://scenes/spawnable/glasses/glasses3.tscn" id="14_nrkta"]
+[ext_resource type="PackedScene" uid="uid://bo6x7ytw8nfys" path="res://scenes/spawnable/glasses/pipe.tscn" id="15_113xj"]
+[ext_resource type="PackedScene" uid="uid://bp7e2276y1qys" path="res://scenes/spawnable/spices/mint.tscn" id="16_avud4"]
+[ext_resource type="PackedScene" uid="uid://f7fxsxnebblp" path="res://scenes/spawnable/spices/lemon.tscn" id="16_jfl6i"]
+[ext_resource type="Texture2D" uid="uid://b25pqw5x6smxj" path="res://assets/equipment/numpad.png" id="16_m7nk6"]
+[ext_resource type="PackedScene" uid="uid://dmrbe1wbt31xr" path="res://scenes/bootles/jager.tscn" id="17_tlcuc"]
+[ext_resource type="PackedScene" uid="uid://c407ybnbdi1or" path="res://scenes/bootles/orange.tscn" id="18_bfmi0"]
+[ext_resource type="PackedScene" uid="uid://dc6vtqww4aa8h" path="res://scenes/bootles/pinaple.tscn" id="18_ev3ky"]
+[ext_resource type="PackedScene" uid="uid://315todb2d0d5" path="res://scenes/bootles/whiskey.tscn" id="18_jfl6i"]
+[ext_resource type="PackedScene" uid="uid://davwijeihhr5b" path="res://scenes/bootles/vodka.tscn" id="18_pnqw7"]
+[ext_resource type="PackedScene" uid="uid://gvr78v6jeifs" path="res://scenes/UI/dymek.tscn" id="18_tlcuc"]
+[ext_resource type="PackedScene" uid="uid://1m8yel5ilbi0" path="res://answerbox.tscn" id="19_tlcuc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jfl6i"]
+size = Vector2(581.325, 579.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nrkta"]
+size = Vector2(628, 120.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_113xj"]
+size = Vector2(771.907, 15)
+
+[node name="BarScene" type="Node2D"]
+script = ExtResource("1_fg7sn")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(768, 512)
+texture = ExtResource("1_kqol2")
+
+[node name="IceMachine" parent="." instance=ExtResource("7_m7nk6")]
+position = Vector2(88, 882)
+scale = Vector2(0.7, 0.7)
+
+[node name="Client" type="StaticBody2D" parent="." groups=["client"]]
+position = Vector2(1127.09, 570.5)
+scale = Vector2(0.57971, 0.57971)
+
+[node name="ClientSprite" type="Sprite2D" parent="Client"]
+texture = ExtResource("4_jfl6i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Client"]
+position = Vector2(62.8074, -133.638)
+shape = SubResource("RectangleShape2D_jfl6i")
+
+[node name="Glasses1" parent="." instance=ExtResource("12_06iih")]
+position = Vector2(721, 964)
+
+[node name="glasses2" parent="." instance=ExtResource("13_nrkta")]
+position = Vector2(913, 964)
+
+[node name="glasses3" parent="." instance=ExtResource("14_nrkta")]
+position = Vector2(1088, 974)
+
+[node name="GlassesDiscard" type="StaticBody2D" parent="." groups=["glassDiscard"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GlassesDiscard"]
+position = Vector2(900, 951.75)
+shape = SubResource("RectangleShape2D_nrkta")
+
+[node name="Counter" type="StaticBody2D" parent="." groups=["counter"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Counter"]
+position = Vector2(1099.79, 810)
+shape = SubResource("RectangleShape2D_113xj")
+
+[node name="Pipe" parent="." instance=ExtResource("15_113xj")]
+position = Vector2(636, 757)
+
+[node name="Numpad" type="Sprite2D" parent="." groups=["shaker"]]
+position = Vector2(508, 887)
+scale = Vector2(0.152644, 0.152644)
+texture = ExtResource("16_m7nk6")
+
+[node name="MintPlant" parent="." instance=ExtResource("16_avud4")]
+position = Vector2(517, 672)
+
+[node name="LemonsBowl" parent="." instance=ExtResource("16_jfl6i")]
+position = Vector2(255, 861)
+scale = Vector2(0.75, 0.75)
+
+[node name="Whiskey" parent="." instance=ExtResource("18_jfl6i")]
+position = Vector2(47, 698)
+
+[node name="Vodka" parent="." instance=ExtResource("18_pnqw7")]
+position = Vector2(132, 696)
+
+[node name="Jager" parent="." instance=ExtResource("17_tlcuc")]
+position = Vector2(212, 696)
+
+[node name="Orange" parent="." instance=ExtResource("18_bfmi0")]
+position = Vector2(292, 701)
+
+[node name="Pinaple" parent="." instance=ExtResource("18_ev3ky")]
+position = Vector2(391, 697)
+
+[node name="Dymek" parent="." instance=ExtResource("18_tlcuc")]
+position = Vector2(678, 261)
+
+[node name="Answerbox" parent="." instance=ExtResource("19_tlcuc")]
+visible = false
+position = Vector2(782, 870)

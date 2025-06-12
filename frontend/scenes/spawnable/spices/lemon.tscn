@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://f7fxsxnebblp"]
+
+[ext_resource type="Texture2D" uid="uid://crpya3mj12uxh" path="res://assets/equipment/lemon_bowl.png" id="1_alw0w"]
+[ext_resource type="Script" uid="uid://c02n0pxvmpv3d" path="res://scenes/spawnable/spices/lemon.gd" id="1_risdh"]
+[ext_resource type="Texture2D" uid="uid://dykdywkrb5lj3" path="res://assets/equipment/lemon_slice.png" id="2_5lpti"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vhfqt"]
+size = Vector2(180.59, 134.36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w5cms"]
+size = Vector2(62.285, 53.75)
+
+[node name="LemonsBowl" type="Node2D"]
+script = ExtResource("1_risdh")
+
+[node name="LemonsBowlSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.626, 0.626)
+texture = ExtResource("1_alw0w")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -2.52)
+shape = SubResource("RectangleShape2D_vhfqt")
+
+[node name="LemonSlice" type="StaticBody2D" parent="."]
+visible = false
+scale = Vector2(1.44, 1.44)
+
+[node name="LemonSliceSprite" type="Sprite2D" parent="LemonSlice"]
+position = Vector2(4.76837e-07, 0)
+scale = Vector2(0.385, 0.385)
+texture = ExtResource("2_5lpti")
+
+[node name="SingleArea2D" type="Area2D" parent="LemonSlice"]
+
+[node name="SingleCollisionShape2D" type="CollisionShape2D" parent="LemonSlice/SingleArea2D"]
+shape = SubResource("RectangleShape2D_w5cms")
+
+[node name="SingleCollisionShape2D" type="CollisionShape2D" parent="LemonSlice"]
+shape = SubResource("RectangleShape2D_w5cms")
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

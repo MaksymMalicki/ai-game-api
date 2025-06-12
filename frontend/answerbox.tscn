@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://1m8yel5ilbi0"]
+
+[ext_resource type="Texture2D" uid="uid://6c53ubbucgdy" path="res://assets/answerbox.png" id="1_1ioxy"]
+[ext_resource type="Script" uid="uid://dwook0looiprh" path="res://answerbox.gd" id="1_7yq38"]
+
+[node name="Answerbox" type="Node2D"]
+script = ExtResource("1_7yq38")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_1ioxy")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+offset_left = -455.0
+offset_top = -85.0
+offset_right = 456.0
+offset_bottom = 86.0
+theme_override_colors/background_color = Color(0.858824, 0.843137, 0.733333, 1)
+theme_override_colors/font_placeholder_color = Color(0.0036, 0.3303, 0.36, 0.560784)
+theme_override_colors/font_color = Color(0.00392157, 0.329412, 0.360784, 1)
+theme_override_font_sizes/font_size = 24
+placeholder_text = "Say something..."
+wrap_mode = 1
+scroll_smooth = true
+
+[connection signal="focus_entered" from="TextEdit" to="." method="_on_text_edit_focus_entered"]
+[connection signal="focus_exited" from="TextEdit" to="." method="_on_text_edit_focus_exited"]

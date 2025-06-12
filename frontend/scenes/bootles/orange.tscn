@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c407ybnbdi1or"]
+
+[ext_resource type="Texture2D" uid="uid://de1mo18dc3iwi" path="res://assets/equipment/orange_juice.png" id="1_ivke3"]
+[ext_resource type="Script" uid="uid://ccj3q7o5fkuxk" path="res://scenes/bootles/orange.gd" id="1_o2al3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l4l4e"]
+size = Vector2(80.22, 163.855)
+
+[node name="Orange" type="Node2D"]
+script = ExtResource("1_o2al3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.464, 0.464)
+texture = ExtResource("1_ivke3")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_l4l4e")
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
