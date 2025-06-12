@@ -22,4 +22,5 @@ The game is inspired by https://tensortrust.ai/.
 
 ## Tech stack
 Spacebar is developed using Godot and Python, with FastAPI and Uvicorn for the backend.
+Frontend Godot implementation is derrived from this Repo (author: Bartosz Wanot), and just copied - so that the entire project is a monorepo: https://github.com/JustRiddle/spacebar?fbclid=IwY2xjawK4MXdleHRuA2FlbQIxMABicmlkETFYT0ZNMnY5REZhWm0yYnlYAR41Au-0BlipestNnhFBGBXKDJF7DmE5DSUjmXq5D5wQs73ePLpIQ9RxXspyXA_aem_2KxPWA8DNDmqfvfif9Iq7A.
 ![Gameplay Screenshot](background.png)
